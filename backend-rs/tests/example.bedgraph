@@ -1,0 +1,5 @@
+browser position Test sequence 1 G6C-4x:0-0
+track type=bedGraph name="G4 Hunter" description="BedGraph output of G4Hunter analysis" visibility=2 color=0,128,0 useScore=1
+Test sequence 1 G6C-4x 0 25  341
+Test sequence 1 G6C-4x 1 26  341
+Test sequence 1 G6C-4x 2 27  341
