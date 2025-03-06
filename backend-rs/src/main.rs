@@ -1,5 +1,6 @@
 use std::io::Read;
 
+use actix_cors::Cors;
 use actix_multipart::form::{tempfile::TempFile, MultipartForm};
 use actix_web::{post, App, Error, HttpResponse, HttpServer, Responder};
 
@@ -30,8 +31,11 @@ async fn save_files(
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(move || App::new().service(echo).service(save_files))
-        .bind(("127.0.0.1", 8080))?
-        .run()
-        .await
+    HttpServer::new(move || {
+        let cors = Cors::permissive();
+        App::new().wrap(cors).service(echo).service(save_files)
+    })
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await
 }
