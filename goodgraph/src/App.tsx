@@ -3,10 +3,12 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-import FileUploadSingle from './fileUpload'
+import FileUploadSingle from './components/fileUpload'
+import Bedgraph, { BedgraphDataPoints } from './components/bedgraph'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [bedgraphData, setBedgraphData] = useState<BedgraphDataPoints>(new BedgraphDataPoints([], []));
 
   return (
     <>
@@ -30,7 +32,12 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <FileUploadSingle/>
+      <FileUploadSingle setBedgraphData={setBedgraphData}/>
+      {bedgraphData.x.length > 0 ? (
+        <Bedgraph bedgraphData={bedgraphData}/>
+      ) : (
+        <div>no bedgraph</div>
+      )}
     </>
   )
 }
