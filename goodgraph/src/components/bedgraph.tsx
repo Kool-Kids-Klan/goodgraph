@@ -1,3 +1,4 @@
+import Plot from 'react-plotly.js';
 
 export class BedgraphDataPoints {
   x: Array<number>;
@@ -12,15 +13,20 @@ export class BedgraphDataPoints {
 function Bedgraph(props: {bedgraphData: BedgraphDataPoints}) {
   return (
     <div>
-      <ul>
       {
-        props.bedgraphData.x.map(function(_x, i) {
-          return (
-            <li>{_x} - {props.bedgraphData.y[i]}</li>
-          )
-        })
+        <Plot
+          data={[
+            {
+              x: props.bedgraphData.x,
+              y: props.bedgraphData.y,
+              type: "bar",
+              mode: "lines+markers",
+              marker: {color: "red"},
+            },
+          ]}
+          layout={ {width: 1000, height: 500, title: {text: "A Fancy Plot"}} }
+        />
       }
-      </ul>
     </div>
   )
 }
