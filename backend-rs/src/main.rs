@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::io::{self, BufRead};
 
 use actix_cors::Cors;
@@ -18,9 +19,14 @@ struct UploadForm {
 }
 
 #[derive(Serialize)]
-struct BedgraphDataPoints {
+struct Graph {
     x: Vec<i32>,
     y: Vec<i32>,
+}
+
+#[derive(Serialize)]
+struct Plot {
+    graphs: HashMap<String, Graph>,
 }
 
 #[post("/files")]
@@ -43,7 +49,10 @@ async fn save_files(
         y.push(parts.last().unwrap().parse::<i32>().unwrap());
     }
 
-    let response = serde_json::to_string(&BedgraphDataPoints { x, y }).unwrap();
+    let bar_graph = Graph { x, y };
+    let mut graphs = HashMap::new();
+    graphs.insert("bar".to_string(), bar_graph);
+    let response = serde_json::to_string(&Plot { graphs }).unwrap();
 
     Ok(HttpResponse::Ok()
         .content_type(ContentType::json())
