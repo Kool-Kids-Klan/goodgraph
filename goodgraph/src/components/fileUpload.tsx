@@ -1,8 +1,16 @@
 import { ChangeEvent, useState } from 'react';
-import { BedgraphDataPoints } from './bedgraph';
+import { PlotData } from './bedgraph';
 import { Dispatch, SetStateAction } from 'react';
 
-function FileUploadSingle(props: { setBedgraphData: Dispatch<SetStateAction<BedgraphDataPoints>> }) {
+class PlotResponse {
+  graphs: Object;
+
+  constructor(graphs: Object) {
+    this.graphs = graphs;
+  }
+}
+
+function FileUploadSingle(props: { setBedgraphData: Dispatch<SetStateAction<PlotData>> }) {
   const [file, setFile] = useState<File>();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,9 +32,9 @@ function FileUploadSingle(props: { setBedgraphData: Dispatch<SetStateAction<Bedg
       body: formData,
     })
       .then((res) => res.json())
-      .then((data: BedgraphDataPoints) => {
+      .then((data: PlotResponse) => {
         console.log(data);
-        props.setBedgraphData(data);
+        props.setBedgraphData(new PlotData(data.graphs));
       })
       .catch((err) => console.error(err));
   };

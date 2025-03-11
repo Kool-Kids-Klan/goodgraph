@@ -1,6 +1,7 @@
+import { Data } from 'plotly.js';
 import Plot from 'react-plotly.js';
 
-export class BedgraphDataPoints {
+export class Graph {
   x: Array<number>;
   y: Array<number>;
 
@@ -10,20 +11,27 @@ export class BedgraphDataPoints {
   }
 }
 
-function Bedgraph(props: {bedgraphData: BedgraphDataPoints}) {
+export class PlotData {
+  graphs: Map<String, Graph>;
+
+  constructor(graphs: Object) {
+    this.graphs = new Map(Object.entries(graphs));
+  }
+}
+
+function Bedgraph(props: {bedgraphData: PlotData}) {
+  let graphsData: Data[] = [];
+  props.bedgraphData.graphs.forEach((graphData, graphType) => (graphsData.push({
+      x: graphData.x,
+      y: graphData.y,
+      type: graphType,  // figure out how to deal with incorrect type
+      mode: "lines+markers",
+  })))
   return (
     <div>
       {
         <Plot
-          data={[
-            {
-              x: props.bedgraphData.x,
-              y: props.bedgraphData.y,
-              type: "bar",
-              mode: "lines+markers",
-              marker: {color: "red"},
-            },
-          ]}
+          data={graphsData}
           layout={ {width: 1000, height: 500, title: {text: "A Fancy Plot"}} }
         />
       }
