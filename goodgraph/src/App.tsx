@@ -8,7 +8,7 @@ import Bedgraph, { PlotData } from './components/bedgraph'
 
 function App() {
   const [count, setCount] = useState(0);
-  const [bedgraphData, setBedgraphData] = useState<PlotData>(new PlotData(new Map()));
+  const [bedgraphData, setBedgraphData] = useState<PlotData>(new PlotData([]));
 
   return (
     <>
@@ -33,7 +33,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       <FileUploadSingle setBedgraphData={setBedgraphData}/>
-      {bedgraphData.graphs.size > 0 ? (
+      {bedgraphData.graphs.length > 0 ? (
         <Bedgraph bedgraphData={bedgraphData}/>
       ) : (
         <div>no bedgraph</div>

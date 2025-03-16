@@ -1,11 +1,11 @@
 import { ChangeEvent, useState } from 'react';
-import { PlotData } from './bedgraph';
+import { Graph, PlotData } from './bedgraph';
 import { Dispatch, SetStateAction } from 'react';
 
 class PlotResponse {
-  graphs: Object;
+  graphs: Array<Graph>;
 
-  constructor(graphs: Object) {
+  constructor(graphs: Array<Graph>) {
     this.graphs = graphs;
   }
 }
